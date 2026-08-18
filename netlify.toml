@@ -1,0 +1,18 @@
+# Netlify config for the personal site (alexandergould.dev)
+# The site is a single index.html that does its own hash routing, so no redirects are needed.
+
+[build]
+  publish = "."
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+
+# Always revalidate the HTML so edits go live immediately; fonts are fetched from Google.
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"

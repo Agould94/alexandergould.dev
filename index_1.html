@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Alexander Gould: design mockup</title>
+<script>document.documentElement.classList.add('js');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#f3efe6;
+    --paper-2:#efe9dd;
+    --card:#faf7f0;
+    --ink:#2a251f;
+    --ink-soft:#7b7166;      /* lighter, more understated secondary */
+    --walnut:#6a4a30;        /* slightly desaturated */
+    --espresso:#2b2118;      /* punchy, muted dark for the solid button */
+    --cognac:#9c6b45;        /* toned down */
+    --sage:#7c8567;
+    --line:rgba(42,37,31,.11);
+    --line-strong:rgba(42,37,31,.2);
+    --black:#191817;
+    --maxw:1120px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--paper);color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;font-weight:300;line-height:1.65;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;letter-spacing:.1px;
+  }
+  a{color:inherit;text-decoration:none}
+
+  .paper-grain{position:fixed;inset:0;z-index:-2;pointer-events:none;opacity:.45;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    mix-blend-mode:multiply;}
+  .warm-wash{position:fixed;inset:0;z-index:-3;pointer-events:none;
+    background:
+      radial-gradient(58vw 48vw at 82% -8%, rgba(156,107,69,.045), transparent 60%),
+      radial-gradient(48vw 44vw at -10% 110%, rgba(124,133,103,.04), transparent 60%);}
+
+  /* labels: light tracked caps replace the old mono/serif */
+  .label{font-size:11px;font-weight:400;letter-spacing:2.6px;text-transform:uppercase;
+    color:var(--cognac)}
+
+  /* ---------- nav ---------- */
+  header.nav{position:fixed;top:0;left:0;right:0;z-index:50;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:22px clamp(20px,5vw,52px);
+    background:linear-gradient(to bottom,rgba(243,239,230,.92),rgba(243,239,230,0));
+    backdrop-filter:blur(6px);}
+  .logo{display:flex;align-items:center;gap:11px;font-weight:400;font-size:16px;
+    letter-spacing:.3px;color:var(--ink)}
+  .logo .mark{width:22px;height:22px;border:1px solid var(--line-strong);border-radius:5px;
+    display:flex;align-items:center;justify-content:center;background:var(--card)}
+  .logo .mark::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--cognac)}
+  nav.links{display:flex;gap:2px;align-items:center}
+  nav.links a{font-size:13.5px;font-weight:300;color:var(--ink-soft);padding:9px 15px;
+    border-radius:3px;transition:.2s;letter-spacing:.3px}
+  nav.links a:hover{color:var(--ink);background:rgba(42,37,31,.04)}
+  nav.links a.active{color:var(--walnut)}
+  nav.links a.talk{border:1px solid var(--line-strong);color:var(--ink);border-radius:2px}
+  nav.links a.talk:hover{border-color:var(--walnut);color:var(--walnut);background:transparent}
+  .burger{display:none;background:none;border:0;color:var(--ink);font-size:20px;cursor:pointer}
+
+  main{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,5vw,40px)}
+  section.view{padding-top:132px;padding-bottom:80px;min-height:100vh}
+  html.js section.view{display:none}
+  html.js section.view.active{display:block;animation:fade .5s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+  /* ---------- hero ---------- */
+  .hero{display:grid;grid-template-columns:1.35fr .65fr;gap:56px;align-items:center;
+    min-height:calc(100vh - 212px)}
+  .eyebrow{margin-bottom:26px;display:flex;align-items:center;gap:12px}
+  .eyebrow .rule{height:1px;width:38px;background:var(--line-strong)}
+  h1.hero-title{font-weight:200;font-size:clamp(42px,6.4vw,80px);line-height:1.04;
+    letter-spacing:-2px;color:var(--ink);margin-bottom:22px}
+  h1.hero-title .accent{color:var(--walnut);font-weight:300}
+  .hook{font-weight:300;font-size:clamp(16px,2.1vw,21px);color:var(--ink-soft);
+    margin-bottom:26px;letter-spacing:-.2px}
+  .lede{font-size:clamp(15px,1.55vw,16.5px);color:var(--ink-soft);max-width:500px;
+    line-height:1.75;margin-bottom:34px;font-weight:300}
+  .lede b{color:var(--ink);font-weight:400}
+  .cta-row{display:flex;flex-wrap:wrap;gap:24px;align-items:center}
+  .btn{font-weight:400;font-size:13.5px;padding:11px 20px;border-radius:2px;cursor:pointer;
+    transition:.18s;border:1px solid var(--line-strong);display:inline-flex;align-items:center;
+    gap:9px;letter-spacing:.3px;color:var(--ink);background:transparent}
+  .btn:hover{border-color:var(--walnut);color:var(--walnut)}
+  /* punchy, slim, square, muted */
+  .btn.solid{background:var(--espresso);color:#efe7db;border-color:var(--espresso);
+    border-radius:0;padding:11px 22px;font-size:13px;font-weight:400;letter-spacing:.7px}
+  .btn.solid .arw{transition:transform .18s}
+  .btn.solid:hover{background:#12100c;color:#fff}
+  .btn.solid:hover .arw{transform:translateX(4px)}
+  .link-quiet{font-size:14px;font-weight:300;color:var(--ink-soft);border-bottom:1px solid var(--line-strong);
+    padding-bottom:2px;transition:.2s}
+  .link-quiet:hover{color:var(--walnut);border-color:var(--walnut)}
+  .spec{margin-top:44px;display:flex;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:22px;
+    font-size:13px;color:var(--ink-soft);font-weight:300}
+  .spec span{padding-right:20px;margin-right:20px;border-right:1px solid var(--line)}
+  .spec span:last-child{border-right:0;margin-right:0;padding-right:0}
+  .spec b{color:var(--ink);font-weight:400}
+
+  /* right side: quiet background ledger about him */
+  .ledger{border-left:1px solid var(--line);padding-left:30px}
+  .ledger .ltitle{margin-bottom:22px}
+  .ledger dl{display:grid;gap:20px}
+  .ledger .row .k{font-size:10.5px;font-weight:400;letter-spacing:2.4px;text-transform:uppercase;
+    color:var(--cognac);margin-bottom:5px}
+  .ledger .row .v{font-size:14.5px;font-weight:300;color:var(--ink);line-height:1.45}
+  .ledger .row .v small{display:block;color:var(--ink-soft);font-size:12.5px;margin-top:2px}
+
+  /* ---------- section headings ---------- */
+  h2.sec{font-weight:200;font-size:clamp(28px,4vw,42px);letter-spacing:-1.2px;
+    color:var(--ink);margin:14px 0 14px}
+  .sec-lede{color:var(--ink-soft);max-width:560px;margin-bottom:38px;font-size:15.5px;font-weight:300}
+
+  /* ---------- workshop ---------- */
+  .filters{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:30px}
+  .chip{font-size:12.5px;font-weight:300;color:var(--ink-soft);border:1px solid var(--line-strong);
+    background:transparent;padding:7px 15px;border-radius:2px;cursor:pointer;transition:.2s;letter-spacing:.3px}
+  .chip:hover{color:var(--ink);border-color:var(--ink-soft)}
+  .chip.on{color:#f4ece2;background:var(--walnut);border-color:var(--walnut)}
+  .rig{position:relative;padding:0 16px}
+  .rig::before,.rig::after{content:"";position:absolute;top:6px;bottom:20px;width:4px;
+    background:linear-gradient(var(--walnut),#7d5334);border-radius:2px;opacity:.7}
+  .rig::before{left:0}.rig::after{right:0}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;
+    padding:24px 6px 26px;position:relative}
+  .grid::after{content:"";position:absolute;left:-8px;right:-8px;bottom:2px;height:6px;
+    background:var(--card);border:1px solid var(--line);border-radius:2px;
+    box-shadow:0 6px 12px -10px rgba(42,37,31,.5)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:3px;
+    padding:24px 22px 20px;display:flex;flex-direction:column;min-height:190px;transition:.22s;position:relative}
+  .card:hover{transform:translateY(-3px);border-color:var(--line-strong);
+    box-shadow:0 16px 30px -24px rgba(42,37,31,.5)}
+  .card .ctag{margin-bottom:15px;display:flex;align-items:center;gap:8px;
+    font-size:10.5px;font-weight:400;letter-spacing:2px;text-transform:uppercase;color:var(--cognac)}
+  .card .ctag::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--cognac)}
+  .card h3{font-weight:400;font-size:19px;letter-spacing:-.3px;margin-bottom:9px;color:var(--ink)}
+  .card p{font-size:13.5px;color:var(--ink-soft);line-height:1.62;flex:1;font-weight:300}
+  .card .go{margin-top:16px;font-size:12px;font-weight:400;color:var(--ink);display:inline-flex;
+    gap:7px;opacity:.7;transition:.2s;letter-spacing:.4px}
+  .card:hover .go{opacity:1;color:var(--walnut);gap:11px}
+  .card.dark{background:var(--black);border-color:#2c2a27;
+    background-image:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1px);
+    background-size:14px 14px;background-position:6px 6px}
+  .card.dark h3{color:#f2ede4}.card.dark p{color:#a49a8d}
+  .card.dark .ctag{color:#c98a55}.card.dark .go{color:#e7ddcf}.card.dark:hover .go{color:#e9b483}
+  .card.add{border-style:dashed;align-items:center;justify-content:center;text-align:center;
+    color:var(--ink-soft);background:transparent}
+  .card.add h3{color:var(--ink-soft)}
+
+  /* ---------- the trail (embedded line-rider) ---------- */
+  .bench{border:1px solid var(--line);background:var(--card);border-radius:3px;
+    margin-bottom:34px;overflow:hidden}
+  .bench-head{display:flex;align-items:center;justify-content:space-between;gap:14px;
+    padding:14px 18px;border-bottom:1px solid var(--line)}
+  .bench-head .htitle{display:flex;align-items:baseline;gap:12px}
+  .bench-head .htitle small{font-size:12px;font-weight:300;color:var(--ink-soft)}
+  .bench-note{padding:15px 18px;font-size:12.5px;font-weight:300;line-height:1.6;
+    color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  @media(max-width:900px){ .bench-note{white-space:normal} }
+  .bench-tools{display:flex;gap:6px}
+  .tbtn{font-size:12px;font-weight:400;letter-spacing:.4px;color:var(--ink);background:transparent;
+    border:1px solid var(--line-strong);border-radius:2px;padding:6px 13px;cursor:pointer;transition:.16s}
+  .tbtn:hover{border-color:var(--walnut);color:var(--walnut)}
+  .bench-stage{position:relative;width:100%;background:
+    linear-gradient(to bottom, rgba(124,133,103,.05), rgba(243,239,230,0) 55%)}
+  #trail{display:block;width:100%;height:240px;cursor:crosshair;touch-action:none;outline:none}
+  #trail:focus{box-shadow:inset 0 0 0 1px rgba(156,107,69,.5)}
+  .bench-hint{position:absolute;left:16px;bottom:12px;font-size:11px;font-weight:300;
+    letter-spacing:.4px;color:var(--ink-soft);pointer-events:none;
+    background:rgba(250,247,240,.72);padding:3px 9px;border-radius:2px;display:flex;align-items:center;gap:2px}
+  .keycap{display:inline-flex;align-items:center;justify-content:center;min-width:15px;height:15px;
+    padding:0 3px;margin:0 1px;border:1px solid var(--line-strong);border-radius:2px;
+    font-size:10px;color:var(--ink);background:rgba(255,255,255,.5)}
+  html:not(.js) #trail{display:none}
+  html.js .bench-fallback{display:none}
+  .bench-fallback{display:block;width:100%;height:240px}
+
+  /* ---------- about ---------- */
+  .about-wrap{display:grid;grid-template-columns:1.4fr 1fr;gap:52px;align-items:start}
+  .about-body p{margin-bottom:18px;color:var(--ink-soft);font-size:15.5px;font-weight:300;line-height:1.78}
+  .about-body b{color:var(--ink);font-weight:400}
+  .timeline{border-left:1px solid var(--line);padding-left:26px}
+  .tl{position:relative;margin-bottom:26px}
+  .tl::before{content:"";position:absolute;left:-31px;top:6px;width:9px;height:9px;border-radius:50%;
+    background:var(--paper);border:1.5px solid var(--cognac)}
+  .tl .yr{font-size:11px;font-weight:400;letter-spacing:1.6px;text-transform:uppercase;color:var(--cognac)}
+  .tl .t{font-weight:400;font-size:15px;margin:3px 0;color:var(--ink)}
+  .tl .d{font-size:13px;color:var(--ink-soft);font-weight:300}
+
+  /* ---------- contact ---------- */
+  .contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:15px;margin-top:6px}
+  .clink{border:1px solid var(--line);background:var(--card);border-radius:3px;padding:22px;
+    transition:.2s;display:flex;flex-direction:column;gap:7px}
+  .clink:hover{transform:translateY(-3px);border-color:var(--line-strong)}
+  .clink .k{font-size:10.5px;font-weight:400;letter-spacing:2px;text-transform:uppercase;color:var(--cognac)}
+  .clink .v{font-size:15px;color:var(--ink);font-weight:300}
+
+  footer{max-width:var(--maxw);margin:0 auto;padding:26px clamp(20px,5vw,40px) 54px;
+    border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;
+    color:var(--ink-soft);font-size:12.5px;font-weight:300;letter-spacing:.3px}
+  .fish{width:24px;height:13px;opacity:.55;transition:.3s;vertical-align:middle}
+  .fishwrap{position:relative;display:inline-flex}
+  .fishbtn{background:none;border:0;padding:0;margin:0;line-height:0;cursor:pointer}
+  .fishwrap:hover .fish,.fishwrap:focus-within .fish{opacity:1}
+  .fishpop{position:absolute;bottom:150%;right:-6px;width:262px;text-align:left;
+    background:var(--card);border:1px solid var(--line-strong);border-radius:3px;
+    padding:12px 14px;font-size:12.5px;font-weight:300;line-height:1.55;color:var(--ink-soft);
+    box-shadow:0 14px 30px -18px rgba(42,37,31,.5);opacity:0;transform:translateY(5px);
+    pointer-events:none;transition:.18s;z-index:60}
+  .fishpop b{color:var(--cognac);font-weight:500}
+  .fishpop::after{content:"";position:absolute;top:100%;right:12px;border:6px solid transparent;
+    border-top-color:var(--card)}
+  .fishwrap:hover .fishpop,.fishwrap:focus-within .fishpop{opacity:1;transform:none}
+
+  /* ---------- workbench pop-out viewer ---------- */
+  .viewer{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;
+    padding:clamp(14px,4vw,48px)}
+  .viewer-scrim{position:absolute;inset:0;background:rgba(240,235,225,.5);
+    backdrop-filter:blur(5px) saturate(1.04);opacity:0;transition:opacity .4s ease;cursor:pointer}
+  .viewer.open .viewer-scrim{opacity:1}
+  .viewer-slab{position:relative;width:min(1100px,94vw);height:min(780px,88vh);display:flex;flex-direction:column;
+    background:var(--card);border:1px solid var(--line-strong);border-radius:7px;overflow:hidden;
+    box-shadow:0 42px 90px -30px rgba(42,37,31,.55), 0 10px 26px -14px rgba(42,37,31,.4);
+    transition:transform .46s cubic-bezier(.2,.85,.25,1), opacity .3s ease;will-change:transform}
+  .viewer-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;
+    border-bottom:1px solid var(--line);background:linear-gradient(var(--paper-2),var(--card))}
+  .viewer-id{display:flex;align-items:baseline;gap:12px;min-width:0}
+  .viewer-tag{font-size:10.5px;font-weight:400;letter-spacing:2px;text-transform:uppercase;color:var(--cognac)}
+  .viewer-title{font-size:15px;font-weight:400;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .viewer-actions{display:flex;align-items:center;gap:8px;flex:none}
+  .viewer-out{font-size:12.5px;font-weight:400;color:var(--ink);border:1px solid var(--line-strong);
+    border-radius:2px;padding:7px 13px;transition:.18s;white-space:nowrap}
+  .viewer-out:hover{border-color:var(--walnut);color:var(--walnut)}
+  .viewer-close{width:30px;height:30px;border:1px solid var(--line);border-radius:2px;background:transparent;
+    color:var(--ink-soft);cursor:pointer;font-size:13px;transition:.18s;display:flex;align-items:center;justify-content:center}
+  .viewer-close:hover{border-color:var(--walnut);color:var(--walnut)}
+  .viewer-back{font-size:12.5px;font-weight:400;color:var(--ink);border:1px solid var(--line-strong);
+    border-radius:2px;padding:7px 12px;background:transparent;cursor:pointer;transition:.18s}
+  .viewer-back:hover{border-color:var(--walnut);color:var(--walnut)}
+  .viewer-stage{flex:1;background:#fff;position:relative}
+  .viewer-frame{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff}
+  /* story brief */
+  .viewer-story{flex:1;overflow:auto;background:var(--card)}
+  .story-inner{max-width:760px;margin:0 auto;padding:clamp(30px,5vw,60px) clamp(24px,5vw,52px)}
+  .story-statusline{display:flex;align-items:center;flex-wrap:wrap;gap:8px 14px;margin-bottom:22px}
+  .story-status{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:400;letter-spacing:1.5px;
+    text-transform:uppercase;color:var(--cognac)}
+  .story-status::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--cognac)}
+  .story-updated{font-size:11px;font-weight:300;letter-spacing:.4px;color:var(--ink-soft)}
+  .story-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 6px}
+  .story-stat{border:1px solid var(--line);border-radius:3px;padding:12px 13px;background:var(--paper)}
+  .story-stat .sv{font-size:18px;font-weight:200;letter-spacing:-.3px;color:var(--ink)}
+  .story-stat .sk{font-size:9.5px;font-weight:400;letter-spacing:1.5px;text-transform:uppercase;color:var(--cognac);margin-top:5px}
+  .story-title{font-size:clamp(30px,5vw,46px);font-weight:200;letter-spacing:-1.4px;color:var(--ink);margin-bottom:12px}
+  .story-tagline{font-size:clamp(16px,2.2vw,20px);font-weight:300;color:var(--ink-soft);line-height:1.5;
+    max-width:560px;margin-bottom:38px}
+  .story-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px 40px;border-top:1px solid var(--line);padding-top:34px}
+  .story-block .story-label{display:block;font-size:11px;font-weight:400;letter-spacing:2px;text-transform:uppercase;
+    color:var(--cognac);margin-bottom:9px}
+  .story-block p{font-size:14.5px;font-weight:300;line-height:1.62;color:#4d453c}
+  .story-cta-row{display:flex;flex-wrap:wrap;align-items:center;gap:18px;margin-top:40px;
+    border-top:1px solid var(--line);padding-top:28px}
+  .story-demo{font-family:inherit;font-size:13.5px;font-weight:400;letter-spacing:.4px;color:#efe7db;
+    background:var(--espresso);border:0;border-radius:0;padding:12px 22px;cursor:pointer;transition:.18s}
+  .story-demo:hover{background:#12100c}
+  .story-demo.soon{background:transparent;color:var(--ink-soft);border:1px dashed var(--line-strong);cursor:default}
+  .story-hint{font-size:12.5px;font-weight:300;color:var(--ink-soft)}
+  .story-hint b{color:var(--walnut);font-weight:400}
+  @media(max-width:620px){ .viewer-slab{width:96vw;height:92vh} .viewer-out{padding:7px 10px}
+    .story-grid{grid-template-columns:1fr;gap:22px} }
+
+  @media(max-width:860px){
+    .hero{grid-template-columns:1fr;gap:40px;min-height:auto}
+    .ledger{border-left:0;border-top:1px solid var(--line);padding-left:0;padding-top:28px}
+    .about-wrap{grid-template-columns:1fr;gap:34px}
+    .grid{grid-template-columns:1fr}
+    .rig{padding:0}
+    .rig::before,.rig::after{display:none}.grid::after{display:none}
+    nav.links{position:fixed;top:64px;left:16px;right:16px;flex-direction:column;align-items:stretch;
+      background:var(--card);border:1px solid var(--line);border-radius:4px;padding:8px;display:none}
+    nav.links.open{display:flex}
+    html.js .burger{display:block}
+    section.view{padding-top:116px}
+  }
+</style>
+</head>
+<body>
+  <div class="warm-wash"></div>
+  <div class="paper-grain"></div>
+
+  <header class="nav">
+    <a href="#/" class="logo"><span class="mark"></span>Alexander Gould</a>
+    <button class="burger" onclick="document.querySelector('nav.links').classList.toggle('open')">☰</button>
+    <nav class="links">
+      <a href="#/" data-route="/">Home</a>
+      <a href="#/work" data-route="/work">Workshop</a>
+      <a href="#/about" data-route="/about">About</a>
+      <a href="#/contact" data-route="/contact" class="talk">Let's talk</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HOME -->
+    <section class="view active" data-view="/">
+      <div class="hero">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="rule"></span><span class="label">The workshop</span></div>
+          <h1 class="hero-title">I design experiences that <span class="accent">connect.</span></h1>
+          <p class="hook">From Finding Nemo to AI founder.</p>
+          <p class="lede">I grew up on screen, then taught myself to build. Today I make <b>agentic AI for the real world</b>. I acquired the software platform I worked on and turned it into <b>Vidaria</b>, an AI operations product trusted by <b>40+ security firms</b>. This is my workbench: the things I have built, and the ones I am chasing next.</p>
+          <div class="cta-row">
+            <a class="btn solid" href="#/work">Enter the workshop <span class="arw">→</span></a>
+            <a class="link-quiet" href="#/about">My story</a>
+            <a class="link-quiet" href="#/contact">Get in touch</a>
+          </div>
+          <div class="spec">
+            <span><b>40+</b> firms on Vidaria</span>
+            <span><b>1</b> company acquired</span>
+            <span><b>2</b> careers, one throughline</span>
+          </div>
+        </div>
+        <aside class="ledger">
+          <div class="ltitle"><span class="label">Background</span></div>
+          <dl>
+            <div class="row"><div class="k">Now</div><div class="v">Co-Founder &amp; CEO, Vidaria<small>Agentic AI for security operations</small></div></div>
+            <div class="row"><div class="k">Before</div><div class="v">Engineer &amp; PM, GuardTrax<small>The platform I later acquired</small></div></div>
+            <div class="row"><div class="k">Studied</div><div class="v">Philosophy, Brandeis<small>Then full-stack at Flatiron</small></div></div>
+            <div class="row"><div class="k">Earlier</div><div class="v">Actor<small>Finding Nemo, Weeds</small></div></div>
+          </dl>
+        </aside>
+      </div>
+    </section>
+
+    <!-- WORKSHOP -->
+    <section class="view" data-view="/work">
+      <span class="label">The workshop</span>
+      <h2 class="sec">Things I have built, and ideas I am chasing</h2>
+      <p class="sec-lede">A living workbench of products, prototypes, and experiments. New things land here as I make them.</p>
+
+      <div class="bench">
+        <div class="bench-head">
+          <div class="htitle"><span class="label">The trail</span><small>a warm-up lap</small></div>
+          <div class="bench-tools">
+            <button class="tbtn" id="trailRide" type="button">Ride</button>
+            <button class="tbtn" id="trailNew" type="button">New trail</button>
+          </div>
+        </div>
+        <p class="bench-note">I do my clearest thinking in motion, out on trails like this one, so I keep a little bit of that here on the workbench. Draw a line, take a lap.</p>
+        <div class="bench-stage">
+          <canvas id="trail" tabindex="0" aria-label="A bicycle riding a hand-drawn, tree-lined trail. Drag to draw, arrow keys to lean."></canvas>
+          <div class="bench-hint">Drag to draw &middot; <span class="keycap">&larr;</span><span class="keycap">&rarr;</span> flip &middot; <span class="keycap">&uarr;</span><span class="keycap">&darr;</span> speed</div>
+          <svg class="bench-fallback" viewBox="0 0 900 240" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <path d="M0 170 C120 140,200 190,320 160 S560 120,700 150 900 130,900 130" fill="none" stroke="#6a4a30" stroke-width="2.5"/>
+            <g fill="#7c8567" opacity="0.4">
+              <polygon points="150,150 165,150 157,120"/><polygon points="152,132 163,132 157,110"/>
+              <polygon points="470,138 485,138 477,108"/><polygon points="472,120 483,120 477,98"/>
+              <polygon points="690,150 705,150 697,120"/>
+            </g>
+            <g stroke="#2a251f" stroke-width="2" fill="none">
+              <circle cx="360" cy="150" r="9"/><circle cx="392" cy="150" r="9"/>
+              <path d="M360 150 L376 150 L370 136 Z"/><path d="M376 150 L392 150"/><path d="M370 136 L384 134"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <div class="filters" id="filters"></div>
+      <div class="rig"><div class="grid" id="projectGrid"></div></div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="view" data-view="/about">
+      <span class="label">The story</span>
+      <h2 class="sec">One throughline: build something people feel.</h2>
+      <div class="about-wrap">
+        <div class="about-body">
+          <p>I voiced Nemo and grew up acting (<b>Finding Nemo</b>, <b>Weeds</b>). Performing taught me to command a room, think on my feet, and tell a story people actually feel. I stepped away from the screen at 18.</p>
+          <p>I studied philosophy at Brandeis, taught myself to code, and fell for the craft of building software that solves real problems. I joined <b>GuardTrax</b>, a platform for private-security operations, as an engineer and product manager.</p>
+          <p>I believed in it enough to <b>acquire the company</b>, and I built <b>Vidaria</b> on its customer base: an agentic operations manager that monitors officers, automates field follow-up, and escalates the incidents that matter. It runs largely on its own today and serves 40+ firms.</p>
+          <p>Building it solo meant wearing every hat, from engineering and AI integration to sales, onboarding, and customer success. That is the job of a great <b>solutions engineer</b>, and it is the work I want to do at scale, with a great team and a bigger mission.</p>
+          <p>The performing background is my edge: demos, discovery, and executive conversations are all performances with a purpose. Now I am looking for the next stage worth stepping onto.</p>
+        </div>
+        <div class="timeline">
+          <div class="tl"><div class="yr">2003 to 2012</div><div class="t">Actor</div><div class="d">Finding Nemo, Weeds, and more.</div></div>
+          <div class="tl"><div class="yr">Brandeis</div><div class="t">B.A. Philosophy</div><div class="d">Then Flatiron School, full-stack.</div></div>
+          <div class="tl"><div class="yr">2023 to 2025</div><div class="t">Engineer &amp; PM, GuardTrax</div><div class="d">Customer-facing engineering for security SaaS.</div></div>
+          <div class="tl"><div class="yr">2025 to now</div><div class="t">Co-Founder &amp; CEO, Vidaria</div><div class="d">Acquired GuardTrax; built agentic AI on it.</div></div>
+          <div class="tl"><div class="yr">Next</div><div class="t">Solutions / Forward-Deployed</div><div class="d">The builder's instinct, on a bigger team.</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="view" data-view="/contact">
+      <span class="label">Let's talk</span>
+      <h2 class="sec">Open to what's next.</h2>
+      <p class="sec-lede">I am exploring solutions engineering, forward-deployed, and technical customer roles at teams building the future of AI and infrastructure. If that is you, reach out.</p>
+      <div class="contact-grid">
+        <a class="clink" href="mailto:alexander.gould94@gmail.com"><span class="k">Email</span><span class="v">alexander.gould94@gmail.com</span></a>
+        <a class="clink" href="https://linkedin.com/in/alexander-gould1" target="_blank" rel="noopener"><span class="k">LinkedIn</span><span class="v">in/alexander-gould1</span></a>
+        <a class="clink" href="https://github.com/Agould94" target="_blank" rel="noopener"><span class="k">GitHub</span><span class="v">@Agould94</span></a>
+        <a class="clink" href="https://vidaria.io" target="_blank" rel="noopener"><span class="k">Building</span><span class="v">vidaria.io</span></a>
+      </div>
+    </section>
+  </main>
+
+  <div id="viewer" class="viewer" aria-hidden="true">
+    <div class="viewer-scrim"></div>
+    <div class="viewer-slab" role="dialog" aria-modal="true" aria-label="Project preview">
+      <div class="viewer-bar">
+        <div class="viewer-id"><span class="viewer-tag"></span><span class="viewer-title"></span></div>
+        <div class="viewer-actions">
+          <button class="viewer-back" type="button" hidden>‹ Story</button>
+          <a class="viewer-out" target="_blank" rel="noopener">Open live site →</a>
+          <button class="viewer-close" type="button" aria-label="Close preview">✕</button>
+        </div>
+      </div>
+      <div class="viewer-story"></div>
+      <div class="viewer-stage" hidden><iframe class="viewer-frame" title="Project demo" loading="lazy"
+        sandbox="allow-scripts allow-forms allow-popups allow-same-origin"></iframe></div>
+    </div>
+  </div>
+
+  <footer>
+    <span>© 2026 Alexander Gould · alexandergould.dev</span>
+    <span style="display:inline-flex;align-items:center;gap:9px">Built as a workshop. Always in progress.
+      <span class="fishwrap">
+        <button class="fishbtn" type="button" aria-label="A note about Finding Nemo">
+          <svg class="fish" viewBox="0 0 60 32" aria-hidden="true">
+            <path d="M6 16 C14 4, 40 4, 48 16 C40 28, 14 28, 6 16 Z" fill="#d97a3d"/>
+            <path d="M48 16 L58 8 L58 24 Z" fill="#d97a3d"/>
+            <path d="M20 11 C24 15, 24 17, 20 21" stroke="#faf7f0" stroke-width="2.4" fill="none"/>
+            <path d="M30 11 C34 15, 34 17, 30 21" stroke="#faf7f0" stroke-width="2.4" fill="none"/>
+            <circle cx="14" cy="14" r="2.2" fill="#2a251f"/>
+          </svg>
+        </button>
+        <span class="fishpop" role="tooltip">
+          <b>Fun fact.</b> Finding Nemo took over three years of recording to create. I learned from an early age the value of understanding what it takes to create something great.
+        </span>
+      </span>
+    </span>
+  </footer>
+
+<script>
+/* Each project opens a story-first pop-out. `story` drives the brief; `embed` (a URL) loads the
+   real app in the demo frame once hosted (blank = placeholder preview); `link` is the live site. */
+const PROJECTS = [
+  { title:"Vidaria", tag:"AI", link:"https://vidaria.io", embed:"", cta:"Open the story",
+    blurb:"An agentic operations manager for private security. Monitors officers, automates follow-up, and escalates the incidents that matter.",
+    story:{
+      status:"In production · trusted by 40+ firms",
+      tagline:"An operations manager that never sleeps.",
+      forWho:"Private-security firms running officers in the field.",
+      what:"An agentic AI that monitors officers, stays location-aware, talks to the field on the operator's behalf, automates follow-up, and escalates the incidents that actually matter.",
+      how:"It watches live operations, reaches out to officers directly when something needs attention, and handles the routine follow-through, so a small team can run a large operation.",
+      why:"I acquired the platform it grew from and built the AI on its real customer base, so it solves problems operators actually have, not hypothetical ones.",
+      hint:"See a shift run itself.",
+      updated:"Aug 2026", stats:[{v:"40+",k:"Firms"},{v:"2025",k:"Founded"},{v:"1",k:"Acquisition"}] } },
+
+  { title:"ShareVault", tag:"Product", link:"#", embed:"", cta:"Open the story",
+    blurb:"A private vault where a family keeps what matters, together. Store critical records over time and share them with exactly the right people.",
+    story:{
+      status:"In production",
+      tagline:"A private vault where a family keeps what matters, together.",
+      forWho:"Families, nuclear and extended, who need a shared, lasting home for critical records.",
+      what:"A Dropbox built for families: store and maintain important documents over time, birth certificates, financial records, medical history, anything worth keeping safe, and grant access to one person or many.",
+      how:"Everything is searchable with AI. Ask it who has access to grandpa's medical records and it tells you. Fine-grained sharing means the right people see the right things.",
+      why:"The critical, easy-to-neglect job of safeguarding a family's records, made human and even playful, with swappable skins (think sci-fi, or steampunk) that let a family make the vault their own.",
+      hint:"Ask: who can see grandpa's medical records?",
+      updated:"Aug 2026", stats:[{v:"Live",k:"Status"},{v:"AI",k:"Search"},{v:"Family",k:"Built for"}] } },
+
+  { title:"Context Torus", tag:"AI", link:"#", embed:"", cta:"Open the story",
+    blurb:"Agentic memory that actually remembers you. A personal assistant with durable memory across everything you store.",
+    story:{
+      status:"In development",
+      tagline:"Agentic memory that actually remembers you.",
+      forWho:"People and organizations who want an assistant with durable, personal memory across everything they store.",
+      what:"A personal assistant that gets to know you and connects to the parts of your life, work, or organization that live in electronic storage.",
+      how:"It stores memory in toroidal, torus-shaped data structures that hold small pieces of information in a memory-like way, so context persists correctly and is recalled fast, with very few tokens.",
+      why:"Most assistants forget. This one is built so memory is cheap to keep and quick to recall, so it genuinely knows you over time.",
+      hint:"Watch it recall the right context, instantly.",
+      updated:"Aug 2026", stats:[{v:"Toroidal",k:"Memory"},{v:"Fast",k:"Recall"},{v:"Fewer",k:"Tokens"}] } },
+
+  { title:"Dialogium", tag:"AI", link:"#", embed:"", cta:"Open the story",
+    blurb:"Learn anything. An AI education platform that builds a full course, with testing and assessment, on any topic, on demand.",
+    story:{
+      status:"In development",
+      tagline:"Learn anything. A full course, built for you, on demand.",
+      forWho:"Anyone who wants to learn anything, from self-taught professionals to the endlessly curious.",
+      what:"An AI education platform that builds complete courses on any topic, anytime.",
+      how:"Tell it what you want to learn; it generates a full course with lessons, testing, and assessment, and goes as deep as you want to go.",
+      why:"Structured, rigorous learning on any subject, on demand, without waiting for someone else to build the course.",
+      hint:"Generate a course on anything.",
+      updated:"Jul 2026", stats:[{v:"Any",k:"Topic"},{v:"Full",k:"Courses"},{v:"On demand",k:"Access"}] } },
+
+  { title:"Holodeck", tag:"Creative", link:"#", embed:"", cta:"Open the story", dark:true,
+    blurb:"A collaborative, code-native 3D workspace built on Three.js. Build interactive worlds together, then export them anywhere.",
+    story:{
+      status:"In development",
+      tagline:"Build a 3D world where everything is code, together.",
+      forWho:"Builders, designers, and teams who want interactive 3D without a heavy engine or a closed pipeline.",
+      what:"A collaborative 3D workspace built on Three.js where everything in the world is code, so you can build interactive spaces in the browser with others, with AI in the loop.",
+      how:"Shape and edit the world as live code alongside collaborators and an AI copilot, then export the finished scene to run properly on whatever site you want to host it on.",
+      why:"Interactive 3D is usually trapped in heavy, closed tools. Holodeck makes it code-first, collaborative, and portable, so what you build actually ships.",
+      hint:"Spin up a 3D scene from a prompt.",
+      updated:"Aug 2026", stats:[{v:"Three.js",k:"Engine"},{v:"Code",k:"Native"},{v:"Export",k:"Anywhere"}] } },
+
+  { title:"GuardTrax", tag:"Product", link:"#", embed:"", cta:"Open the story",
+    blurb:"The security-operations platform I engineered, then acquired. Patrols, live tracking, incidents, and reporting.",
+    story:{
+      status:"Acquired · the platform behind Vidaria",
+      tagline:"The operations platform I engineered, then bought.",
+      forWho:"Private-security operators managing patrols, tracking, and incidents.",
+      what:"Cloud software for security operations: patrols, live tracking, incident logging, and reporting.",
+      how:"I joined as an engineer and product manager, learned the customers cold, and believed in it enough to acquire the company and build Vidaria on top of it.",
+      why:"It is where the whole thread starts: real customers, real operations, and the base I turned into an AI product.",
+      hint:"View the operations app.",
+      updated:"2025", stats:[{v:"2023",k:"Joined"},{v:"Acquired",k:"Then"},{v:"Base",k:"For Vidaria"}] } },
+
+  { title:"Your next idea", tag:"Experiment", blurb:"This shelf is built to grow. The next prototype, demo, or weekend build lands right here.", link:"", cta:"", add:true },
+];
+const app = {
+  path:'/',
+  render(){
+    const path = this.path;
+    document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active', v.dataset.view===path));
+    document.querySelectorAll('nav.links a[data-route]').forEach(a=>a.classList.toggle('active', a.dataset.route===path));
+    document.querySelector('nav.links').classList.remove('open');
+    window.scrollTo(0,0);
+    if(path==='/work' && window.Trail) Trail.activate();
+  },
+  go(p){ this.path=p||'/'; try{location.hash='#'+this.path;}catch(e){} this.render(); },
+  projects(filter='All'){
+    const grid=document.getElementById('projectGrid'); grid.innerHTML='';
+    PROJECTS.filter(p=>filter==='All'||p.tag===filter).forEach(p=>{
+      const el=document.createElement(p.link && !p.add ? 'a':'div');
+      el.className='card'+(p.add?' add':'')+(p.dark?' dark':'');
+      if(p.link && !p.add){ el.href=p.link; if(p.link.startsWith('http')){el.target='_blank';el.rel='noopener';} }
+      el.innerHTML = p.add
+        ? `<div class="ctag">open slot</div><h3>${p.title}</h3><p>${p.blurb}</p>`
+        : `<div class="ctag">${p.tag}</div><h3>${p.title}</h3><p>${p.blurb}</p><span class="go">${p.cta} →</span>`;
+      if(p.link && !p.add){ el.addEventListener('click',ev=>{ ev.preventDefault(); openViewer(p, el); }); }
+      grid.appendChild(el);
+    });
+  },
+  filters(){
+    const cats=['All',...new Set(PROJECTS.map(p=>p.tag))];
+    const box=document.getElementById('filters'); box.innerHTML='';
+    cats.forEach((c,i)=>{
+      const b=document.createElement('button');
+      b.className='chip'+(i===0?' on':''); b.textContent=c;
+      b.onclick=()=>{document.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));b.classList.add('on');this.projects(c);};
+      box.appendChild(b);
+    });
+  }
+};
+document.addEventListener('click',e=>{const a=e.target.closest('a[href^="#/"]');if(a){e.preventDefault();app.go(a.getAttribute('href').slice(1));}});
+addEventListener('hashchange',()=>{const p=location.hash.replace('#','')||'/';if(p!==app.path){app.path=p;app.render();}});
+
+/* ---------- workbench pop-out viewer ---------- */
+const viewer=document.getElementById('viewer');
+const vSlab=viewer.querySelector('.viewer-slab'), vStory=viewer.querySelector('.viewer-story'),
+      vStage=viewer.querySelector('.viewer-stage'), vFrame=viewer.querySelector('.viewer-frame'),
+      vTitle=viewer.querySelector('.viewer-title'), vTag=viewer.querySelector('.viewer-tag'),
+      vOut=viewer.querySelector('.viewer-out'), vBack=viewer.querySelector('.viewer-back');
+let vOrigin=null, vCurrent=null;
+function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function storyHTML(p){
+  const s=p.story||{};
+  const block=(label,txt)=> txt ? `<div class="story-block"><span class="story-label">${label}</span><p>${esc(txt)}</p></div>` : '';
+  const hint = s.hint ? `<span class="story-hint">Try: <b>${esc(s.hint)}</b></span>` : '';
+  const stats = (s.stats&&s.stats.length)
+    ? `<div class="story-stats">${s.stats.map(x=>`<div class="story-stat"><div class="sv">${esc(x.v)}</div><div class="sk">${esc(x.k)}</div></div>`).join('')}</div>` : '';
+  return `<div class="story-inner">
+    <div class="story-statusline">
+      ${s.status?`<span class="story-status">${esc(s.status)}</span>`:''}
+      ${s.updated?`<span class="story-updated">Updated ${esc(s.updated)}</span>`:''}
+    </div>
+    <h2 class="story-title">${esc(p.title)}</h2>
+    ${s.tagline?`<p class="story-tagline">${esc(s.tagline)}</p>`:''}
+    ${stats}
+    <div class="story-grid">
+      ${block('For', s.forWho)}${block('What it is', s.what)}
+      ${block('How it works', s.how)}${block('Why it matters', s.why)}
+    </div>
+    <div class="story-cta-row"><button class="story-demo" data-demo type="button">Launch the demo →</button>${hint}</div>
+  </div>`;
+}
+function previewDoc(p){
+  const s=p.story||{};
+  return `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet"><style>
+    *{box-sizing:border-box;margin:0;font-family:Inter,system-ui,sans-serif}
+    body{background:#f7f3ec;color:#2a251f;height:100vh;overflow:hidden;display:flex;flex-direction:column}
+    .top{display:flex;align-items:center;justify-content:space-between;padding:14px 22px;border-bottom:1px solid rgba(42,37,31,.1);background:#fff}
+    .brand{font-weight:500;display:flex;align-items:center}.dot{width:8px;height:8px;border-radius:50%;background:#a56a3c;margin-right:9px}
+    .nav{display:flex;gap:20px;font-size:13px;color:#8a8074}
+    .mid{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;text-align:center}
+    .tag{font-size:10.5px;letter-spacing:2px;text-transform:uppercase;color:#a56a3c;margin-bottom:14px}
+    h1{font-size:30px;font-weight:200;letter-spacing:-.6px;margin-bottom:10px}
+    .sub{color:#8a8074;font-size:13.5px;max-width:460px;margin-bottom:26px;line-height:1.55}
+    .bar{display:flex;width:min(540px,86vw);border:1px solid rgba(42,37,31,.16);border-radius:3px;overflow:hidden;background:#fff}
+    .bar input{flex:1;border:0;padding:13px 15px;font:inherit;font-size:14px;outline:none;color:#2a251f}
+    .bar button{border:0;background:#2b2118;color:#efe7db;padding:0 18px;font:inherit;font-size:13px;cursor:pointer}
+    .note{margin-top:16px;font-size:12px;color:#a89e90}
+  </style></head><body>
+    <div class="top"><div class="brand"><span class="dot"></span>${esc(p.title)}</div><div class="nav"><span>Overview</span><span>Activity</span><span>Settings</span></div></div>
+    <div class="mid">
+      <div class="tag">Live demo</div><h1>${esc(p.title)}</h1>
+      <div class="sub">This is where the real ${esc(p.title)} runs, embedded right in the page. Point the project at its hosted demo and it loads in this frame.</div>
+      <form class="bar" onsubmit="return false"><input value="${esc(s.hint||'')}" aria-label="Demo prompt"/><button>Run</button></form>
+      <div class="note">Interactive placeholder standing in for the hosted app.</div>
+    </div>
+  </body></html>`;
+}
+function showStory(){ vStage.hidden=true; vStory.hidden=false; vBack.hidden=true;
+  vFrame.removeAttribute('src'); vFrame.removeAttribute('srcdoc'); vStory.scrollTop=0; }
+function showDemo(p){ vStory.hidden=true; vStage.hidden=false; vBack.hidden=false;
+  if(p.embed){ vFrame.removeAttribute('srcdoc'); vFrame.src=p.embed; }
+  else { vFrame.removeAttribute('src'); vFrame.srcdoc=previewDoc(p); } }
+function openViewer(p, cardEl){
+  vOrigin=cardEl; vCurrent=p;
+  vTitle.textContent=p.title; vTag.textContent=p.tag;
+  const external = p.link && p.link.indexOf('http')===0;
+  vOut.href = external ? p.link : '#'; vOut.style.display = external ? '' : 'none';
+  vStory.innerHTML = storyHTML(p); showStory();
+  viewer.style.display='flex'; viewer.setAttribute('aria-hidden','false');
+  const sr=vSlab.getBoundingClientRect(), cr=cardEl.getBoundingClientRect();
+  const sx=Math.max(.16, cr.width/sr.width), sy=Math.max(.16, cr.height/sr.height);
+  const dx=(cr.left+cr.width/2)-(sr.left+sr.width/2), dy=(cr.top+cr.height/2)-(sr.top+sr.height/2);
+  vSlab.style.transition='none'; vSlab.style.transform=`translate(${dx}px,${dy}px) scale(${sx},${sy})`; vSlab.style.opacity='0';
+  requestAnimationFrame(()=>{ requestAnimationFrame(()=>{
+    vSlab.style.transition=''; viewer.classList.add('open'); vSlab.style.transform=''; vSlab.style.opacity=''; });
+  });
+}
+vStory.addEventListener('click', e=>{ if(e.target.closest('[data-demo]') && vCurrent) showDemo(vCurrent); });
+vBack.addEventListener('click', showStory);
+function closeViewer(){
+  if(!viewer.classList.contains('open')) return;
+  const sr=vSlab.getBoundingClientRect();
+  if(vOrigin){ const cr=vOrigin.getBoundingClientRect();
+    const sx=Math.max(.16, cr.width/sr.width), sy=Math.max(.16, cr.height/sr.height);
+    const dx=(cr.left+cr.width/2)-(sr.left+sr.width/2), dy=(cr.top+cr.height/2)-(sr.top+sr.height/2);
+    vSlab.style.transform=`translate(${dx}px,${dy}px) scale(${sx},${sy})`;
+  }
+  vSlab.style.opacity='0'; viewer.classList.remove('open');
+  let done=false; const finish=()=>{ if(done) return; done=true;
+    viewer.style.display='none'; viewer.setAttribute('aria-hidden','true');
+    vFrame.removeAttribute('src'); vFrame.removeAttribute('srcdoc');
+    vSlab.style.transform=''; vSlab.style.opacity=''; };
+  vSlab.addEventListener('transitionend', finish, {once:true}); setTimeout(finish, 520);
+}
+viewer.querySelector('.viewer-close').addEventListener('click', closeViewer);
+viewer.querySelector('.viewer-scrim').addEventListener('click', closeViewer);
+window.addEventListener('keydown', e=>{ if(e.key==='Escape') closeViewer(); });
+
+/* ---------- The trail: a scrolling bike playground with flips ---------- */
+window.Trail = (function(){
+  const cv = document.getElementById('trail');
+  if(!cv) return null;
+  const ctx = cv.getContext('2d');
+  const C = { line:'#6a4a30', ink:'#2a251f', cognac:'#9c6b45', sage:'#7c8567', pine2:'#5f6b4f',
+              ground:'rgba(106,74,48,0.06)', spoke:'rgba(42,37,31,0.32)' };
+  const WB=30, WR=8, SEG=94;
+  const G=1500, BASE=520, GAS=340, REVERSE=980, FRIC=1.7, VMIN=-520, VMAX=860;
+  const AIRTQ=40, OMMAX=14, ANCHOR=0.32, TAU=Math.PI*2;
+
+  let W=0, H=240, dpr=1, started=false, lastT=0;
+  let mode='gen', controls=[], drawn=[], trees=[];
+  let camX=0, drawing=false, cursorWX=0, pending=[], sinceKick=0, drawnLoop=false, loopL=0, loopX0=0;
+  // bike state
+  let bx=0, by=0, v=160, vx=0, vy=0, th=0, om=0, air=false, vyG=0, leanVis=0;
+  // scoring
+  let score=0, toasts=[], airRot=0, airBack=false, wheelieT=0, wheelieDir=0;
+  const keys=new Set();
+  let hovered=false;
+
+  function clamp(a,lo,hi){ return a<lo?lo:a>hi?hi:a; }
+  function norm(a){ a=(a+Math.PI)%TAU; if(a<0)a+=TAU; return a-Math.PI; }
+
+  function resize(){
+    const r = cv.parentElement.getBoundingClientRect();
+    W = Math.max(320, Math.round(r.width)); H = 240;
+    dpr = Math.min(2, window.devicePixelRatio||1);
+    cv.width = W*dpr; cv.height = H*dpr;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+
+  // ---- terrain ----
+  function pushTrees(atX){
+    const k = (Math.random()<0.7?1:0) + (Math.random()<0.6?1:0);   // 0..2, denser
+    for(let j=0;j<k;j++){
+      const d=Math.random();                                        // depth 0 back .. 1 front
+      const h=15 + d*32, x=atX + (Math.random()*70-35);
+      const tone = d>0.6 ? C.line : (Math.random()>0.5?C.sage:C.pine2);
+      trees.push({x, h, w:h*0.52, tone, o:0.16 + d*0.34, d});
+    }
+  }
+  function ensureGen(toX){
+    if(!controls.length){ controls.push({x:0, y:H*0.66}); pending=[]; sinceKick=0; }
+    while(controls[controls.length-1].x < toX){
+      const last = controls[controls.length-1];
+      let ny;
+      if(pending.length){                                         // shaped feature in progress
+        ny = clamp(last.y + pending.shift(), H*0.26, H*0.88);
+      } else if(sinceKick>5 && Math.random()<0.16){               // jump ramps: sharp symmetric peaks (launch both ways when hit at speed)
+        pending = [-64, 64]; sinceKick=0;
+        ny = clamp(last.y + pending.shift(), H*0.26, H*0.88);
+      } else {                                                    // gentle rolling hills (smooth cruise)
+        sinceKick++;
+        ny = clamp(last.y + (Math.random()-0.5)*2*(H*0.06), H*0.52, H*0.80);
+      }
+      controls.push({x:last.x+SEG, y:ny});
+      pushTrees(last.x+SEG);
+    }
+  }
+  function ensureGenLeft(toX){                                     // terrain behind the start, for riding in reverse
+    while(controls[0].x > toX){
+      const first=controls[0];
+      const ny=clamp(first.y + (Math.random()-0.5)*2*(H*0.06), H*0.5, H*0.8);
+      controls.unshift({x:first.x-SEG, y:ny});
+      pushTrees(first.x-SEG);
+    }
+  }
+  function yAt(x){
+    if(mode==='drawn'){
+      const d=drawn; if(d.length<2) return H*0.7;
+      const xx = drawnLoop ? loopX0 + (((x-loopX0)%loopL)+loopL)%loopL : x;   // wrap for a seamless loop
+      if(xx<=d[0].x) return d[0].y;
+      if(xx>=d[d.length-1].x) return d[d.length-1].y;
+      let lo=0,hi=d.length-1;
+      while(hi-lo>1){ const m=(lo+hi)>>1; if(d[m].x<=xx) lo=m; else hi=m; }
+      const a=d[lo], b=d[hi], t=(xx-a.x)/((b.x-a.x)||1);
+      return a.y+(b.y-a.y)*t;
+    } else {
+      if(x > controls[controls.length-1].x) ensureGen(x+SEG);
+      let i=Math.floor((x-controls[0].x)/SEG); if(i<0)i=0; if(i>controls.length-2)i=controls.length-2;
+      const c0=controls[i], c1=controls[i+1];
+      let t=(x-c0.x)/SEG; t=clamp(t,0,1); const tt=t*t*(3-2*t);
+      return c0.y+(c1.y-c0.y)*tt;
+    }
+  }
+  function angAt(x){ return Math.atan2(yAt(x+6)-yAt(x-6), 12); }
+
+  function placeBike(x){ bx=x; by=yAt(x)-WR; v=160; vx=0; vy=0; th=angAt(x); om=0; air=false; vyG=0; airRot=0; wheelieT=0; }
+  function newGen(){ mode='gen'; controls=[]; trees=[]; pending=[]; sinceKick=0;
+    controls.push({x:-2*W, y:H*0.66});                             // start terrain well behind spawn
+    ensureGen(W*2.4); placeBike(24); camX=bx-W*ANCHOR; score=0; toasts=[]; }
+  function resetBike(){ placeBike(mode==='drawn'? drawn[0].x+2 : 24); }
+
+  function toast(text, big){ toasts.push({text, age:0, big:!!big}); if(toasts.length>4) toasts.shift(); }
+  function land(){
+    const a=angAt(bx), d=Math.abs(norm(th-a));
+    const flips=Math.abs(airRot)>=TAU*0.8 ? Math.round(airRot/TAU) : 0;  // only real rotations count
+    const sp=Math.hypot(vx,vy);
+    if(d>2.4){                                   // came down upside-down: wipeout
+      v=Math.max(60, sp*0.22); toast('Wipeout');
+    } else if(d>1.6){
+      v=Math.max(90, sp*0.55);
+    } else {
+      v=Math.max(120, sp*0.98);
+      if(Math.abs(flips)>=1){
+        const per = airBack ? 150 : 100;                            // reverse flips are worth more
+        const pts = Math.abs(flips)*per;
+        score += pts;
+        const name = (airBack?'Reverse ':'') + (airRot<0 ? 'Backflip' : 'Frontflip');
+        toast(name + (Math.abs(flips)>1?' x'+Math.abs(flips):'') + '  +' + pts, true);
+      }
+    }
+    th=a; om=0; air=false; vyG=0; airRot=0;
+  }
+
+  // ---- physics ----
+  function step(h){
+    const rot = (keys.has('right')?1:0) - (keys.has('left')?1:0);   // right = frontflip, left = backflip
+    const gas = (keys.has('gas')?1:0) - (keys.has('brake')?1:0);
+    if(mode==='gen'){ ensureGen(bx + W + 340); ensureGenLeft(bx - W - 340); }
+
+    if(!air){
+      const a=angAt(bx), prevY=by;
+      let drive = BASE + (gas>0?GAS:0);
+      if(gas<0) drive = -REVERSE;                                   // down actively reverses
+      v += (G*Math.sin(a)*0.7 + drive - FRIC*v)*h;                  // softer slope surge = smoother
+      v = clamp(v, VMIN, VMAX);
+      bx += v*Math.cos(a)*h;
+
+      // wheelie lean on the ground; sustained lean scores
+      const targetLean = rot*0.5;
+      leanVis += (targetLean - leanVis)*Math.min(1,12*h);
+      if(Math.abs(leanVis)>0.34 && Math.abs(v)>90){
+        if(wheelieDir!==Math.sign(leanVis)){ wheelieDir=Math.sign(leanVis); wheelieT=0; }
+        wheelieT+=h;
+        if(wheelieT>=1){ wheelieT-=1; score+=30; toast(leanVis<0?'Wheelie +30':'Stoppie +30'); }
+      } else { wheelieDir=0; wheelieT=0; }
+
+      const gY=yAt(bx)-WR;
+      const groundVy=(gY-prevY)/h;
+      const kx=SEG*0.42, vxh=v*Math.cos(a);
+      const curv=(yAt(bx+kx)-2*yAt(bx)+yAt(bx-kx))/(kx*kx);         // >0 at a crest
+      if(curv*vxh*vxh > G*1.6 && Math.abs(v)>360){                 // only a fast approach to a ramp launches; cruising stays grounded
+        air=true; vx=vxh*0.85; airBack = v<0;                      // remember travel direction
+        vy=clamp(-Math.abs(vxh)*0.95 - 60, -620, 25);              // air scales with speed (gentle terrain is gated out below, so only real ramps reach here)
+        const curl=clamp(vyG*0.004, -1, 1);                        // tiny bias only
+        om=curl + rot*5 - leanVis*3; airRot=0; leanVis*=0.5;
+      } else {
+        by=gY; vyG=groundVy; th += (a-th)*Math.min(1,14*h);
+      }
+    } else {
+      leanVis += (0-leanVis)*Math.min(1,6*h);
+      vy += G*h; bx += vx*h; by += vy*h;
+      om += rot*AIRTQ*h; om -= om*(rot===0?20:0.1)*h;              // release stops the spin quickly (hold the orientation you let go at)
+      om=clamp(om,-OMMAX,OMMAX);
+      th += om*h; airRot += om*h;
+      if(rot===0 && vy>0){                                         // once falling and not spinning, right the bike the SHORT way to the landing slope
+        const a2=angAt(bx); th += norm(a2-th)*Math.min(1,8*h);
+      }
+      if(mode==='gen'){ ensureGen(bx + W + 340); ensureGenLeft(bx - W - 340); }
+      const gY=yAt(bx)-WR;
+      if(by>=gY){ by=gY; land(); }
+    }
+  }
+
+  // ---- render ----
+  function pine(wx, t){
+    const sx=wx-camX; if(sx< -50 || sx>W+50) return;
+    const gy=yAt(wx);
+    ctx.globalAlpha=t.o; ctx.fillStyle=t.tone;
+    ctx.fillRect(sx-1.1, gy-t.h*0.26, 2.2, t.h*0.26);
+    for(let k=0;k<3;k++){
+      const ty=gy-t.h*0.18-k*(t.h*0.26), tw=t.w*(1-k*0.24);
+      ctx.beginPath(); ctx.moveTo(sx-tw/2,ty); ctx.lineTo(sx+tw/2,ty);
+      ctx.lineTo(sx,ty-t.h*0.42); ctx.closePath(); ctx.fill();
+    }
+    ctx.globalAlpha=1;
+  }
+  function bike(){
+    const sx=bx-camX, sy=by, a=th+(air?0:leanVis);
+    const ca=Math.cos(a), sa=Math.sin(a);
+    const R={x:sx-WB/2*ca, y:sy-WB/2*sa}, F={x:sx+WB/2*ca, y:sy+WB/2*sa};
+    const up={x:sa, y:-ca}, bb={x:sx,y:sy};
+    const seat={x:bb.x+up.x*18, y:bb.y+up.y*18};
+    const bar={x:F.x+up.x*20, y:F.y+up.y*20};
+    if(air){ const gy=yAt(bx); ctx.globalAlpha=0.12; ctx.fillStyle=C.ink;
+      ctx.beginPath(); ctx.ellipse(sx,gy,14,3,0,0,7); ctx.fill(); ctx.globalAlpha=1; }
+    ctx.strokeStyle=C.ink; ctx.lineWidth=2;
+    for(const hub of [R,F]){
+      ctx.beginPath(); ctx.arc(hub.x,hub.y,WR,0,Math.PI*2); ctx.stroke();
+      ctx.strokeStyle=C.spoke; ctx.lineWidth=1;
+      for(let k=0;k<4;k++){ const sp=a+k*Math.PI/2;
+        ctx.beginPath(); ctx.moveTo(hub.x,hub.y);
+        ctx.lineTo(hub.x+Math.cos(sp)*WR, hub.y+Math.sin(sp)*WR); ctx.stroke(); }
+      ctx.strokeStyle=C.ink; ctx.lineWidth=2;
+    }
+    ctx.lineWidth=2; ctx.beginPath();
+    ctx.moveTo(R.x,R.y); ctx.lineTo(bb.x,bb.y); ctx.lineTo(F.x,F.y);
+    ctx.moveTo(R.x,R.y); ctx.lineTo(seat.x,seat.y); ctx.lineTo(bb.x,bb.y);
+    ctx.moveTo(seat.x,seat.y); ctx.lineTo(bar.x,bar.y); ctx.lineTo(F.x,F.y);
+    ctx.stroke();
+    ctx.strokeStyle=C.cognac; ctx.lineWidth=2.4; ctx.beginPath();
+    ctx.moveTo(seat.x-4,seat.y); ctx.lineTo(seat.x+5,seat.y-1);
+    ctx.moveTo(bar.x-5,bar.y);   ctx.lineTo(bar.x+3,bar.y-2); ctx.stroke();
+  }
+  function hud(dt){
+    // score, top-right
+    ctx.font='500 12px Inter, system-ui, sans-serif'; ctx.textAlign='right';
+    ctx.fillStyle=C.ink; ctx.globalAlpha=.85;
+    ctx.fillText('SCORE ' + String(score).padStart(4,'0'), W-14, 22);
+    ctx.globalAlpha=1;
+    // trick toasts, center
+    ctx.textAlign='center';
+    for(let i=toasts.length-1;i>=0;i--){
+      const t=toasts[i]; t.age+=dt; if(t.age>1.4){ toasts.splice(i,1); continue; }
+      const al=clamp(1.4-t.age,0,1), rise=(1-al)*14;
+      ctx.globalAlpha=al; ctx.fillStyle = t.big?C.cognac:C.ink;
+      ctx.font=(t.big?'500 16px':'400 12px')+' Inter, system-ui, sans-serif';
+      ctx.fillText(t.text, W*0.5, 40 - rise + i*2);
+    }
+    ctx.globalAlpha=1; ctx.textAlign='left';
+  }
+  function draw(dt){
+    ctx.clearRect(0,0,W,H);
+    const pts=[]; for(let sx=-4; sx<=W+4; sx+=4) pts.push({sx, y:yAt(sx+camX)});
+    ctx.beginPath(); ctx.moveTo(pts[0].sx, pts[0].y);
+    for(const p of pts) ctx.lineTo(p.sx,p.y);
+    ctx.lineTo(W+4,H); ctx.lineTo(-4,H); ctx.closePath();
+    ctx.fillStyle=C.ground; ctx.fill();
+    // trees back-to-front for overlap depth (tiled across laps when looping)
+    let vis;
+    if(mode==='drawn' && drawnLoop){
+      vis=[];
+      for(const t of trees){ const k=Math.round((camX+W/2 - t.x)/loopL);
+        for(let j=k-1;j<=k+1;j++){ const wx=t.x + j*loopL; if(wx-camX>-50 && wx-camX<W+50) vis.push({t, wx}); } }
+    } else {
+      vis=trees.filter(t=>t.x-camX>-50 && t.x-camX<W+50).map(t=>({t, wx:t.x}));
+    }
+    vis.sort((a,b)=>a.t.d-b.t.d);
+    for(const e of vis) pine(e.wx, e.t);
+    ctx.beginPath(); ctx.moveTo(pts[0].sx, pts[0].y);
+    for(const p of pts) ctx.lineTo(p.sx,p.y);
+    ctx.strokeStyle=C.line; ctx.lineWidth=2.5; ctx.lineJoin='round'; ctx.stroke();
+    if(drawing){ const fx=cursorWX-camX; ctx.fillStyle=C.cognac;
+      ctx.beginPath(); ctx.arc(fx, yAt(cursorWX), 3, 0, 7); ctx.fill(); }
+    bike();
+    hud(dt);
+  }
+
+  function frame(ts){
+    requestAnimationFrame(frame);
+    if(!W) return;
+    let dt = lastT ? (ts-lastT)/1000 : 0.016; lastT=ts; dt=Math.min(0.04,dt);
+    const N=5; for(let i=0;i<N;i++) step(dt/N);                    // bike rides, even while you draw ahead of it
+    const camT = bx - W*ANCHOR;                                    // camera follows the bike, so you draw ahead of it
+    camX += (camT-camX)*Math.min(1, 7*dt);
+    draw(dt);
+  }
+
+  // ---- drawing ----
+  function pos(e){ const r=cv.getBoundingClientRect(); return {x:e.clientX-r.left, y:e.clientY-r.top}; }
+  cv.addEventListener('pointerdown',e=>{ cv.focus(); drawing=true; mode='drawn'; drawnLoop=false; trees=[];
+    const p=pos(e); cursorWX=p.x+camX; drawn=[{x:cursorWX,y:p.y}];   // start immediately at the cursor
+    placeBike(cursorWX); score=0; toasts=[]; cv.setPointerCapture(e.pointerId); });
+  cv.addEventListener('pointermove',e=>{ if(!drawing) return; const p=pos(e); const wx=p.x+camX; cursorWX=wx;
+    const last=drawn[drawn.length-1];
+    if(wx > last.x + 1.5){ drawn.push({x:wx,y:p.y}); }              // extend forward
+    else if(wx < last.x - 1.5){                                     // went back over the line: erase forward, redraw
+      while(drawn.length>1 && drawn[drawn.length-1].x > wx) drawn.pop();
+      drawn.push({x:wx,y:p.y});
+    } else { last.y = p.y; }                                        // near-vertical move: reshape in place
+  });
+  function endDraw(){ if(!drawing) return; drawing=false;
+    if(drawn.length>3){
+      const last=drawn[drawn.length-1], y0=drawn[0].y, CONN=210;              // close the loop back to the start height
+      for(let s=1;s<=10;s++){ const t=s/10, tt=t*t*(3-2*t); drawn.push({x:last.x+CONN*t, y:last.y+(y0-last.y)*tt}); }
+      loopX0=drawn[0].x; loopL=drawn[drawn.length-1].x - loopX0; drawnLoop=true;
+      seedDrawnTrees();                                                       // keep riding from where the bike is; the loop is seamless
+    } else newGen();
+  }
+  cv.addEventListener('pointerup',endDraw);
+  cv.addEventListener('pointercancel',endDraw);
+  function seedDrawnTrees(){ trees=[]; const a=drawn[0].x, b=drawn[drawn.length-1].x;
+    for(let x=a+30; x<b-6; x+= 34+Math.random()*46) pushTrees(x); }
+
+  // ---- keyboard ----
+  function keyName(e){ const k=e.key;
+    if(k==='ArrowLeft'||k==='a'||k==='A') return 'left';
+    if(k==='ArrowRight'||k==='d'||k==='D') return 'right';
+    if(k==='ArrowUp'||k==='w'||k==='W') return 'gas';
+    if(k==='ArrowDown'||k==='s'||k==='S') return 'brake'; return null; }
+  window.addEventListener('keydown',e=>{ if(app.path!=='/work') return;
+    const n=keyName(e); if(n){ keys.add(n); if(hovered||document.activeElement===cv) e.preventDefault(); } });
+  window.addEventListener('keyup',e=>{ const n=keyName(e); if(n) keys.delete(n); });
+  cv.addEventListener('mouseenter',()=>hovered=true);
+  cv.addEventListener('mouseleave',()=>hovered=false);
+  cv.addEventListener('blur',()=>keys.clear());
+
+  document.getElementById('trailRide').addEventListener('click',()=>{ resetBike(); });
+  document.getElementById('trailNew').addEventListener('click',()=>{ resize(); newGen(); });
+  window.addEventListener('resize',()=>{
+    const w=document.querySelector('[data-view="/work"]');
+    if(w && w.classList.contains('active')) resize();
+  });
+
+  return {
+    activate(){
+      resize();
+      if(!started){ started=true; requestAnimationFrame(frame); }
+      if(!controls.length && mode==='gen') newGen();
+    }
+  };
+})();
+
+app.path=location.hash.replace('#','')||'/';
+app.filters();app.projects();app.render();
+</script>
+</body>
+</html>
