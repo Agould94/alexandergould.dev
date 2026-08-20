@@ -119,6 +119,10 @@
   .sec-lede{color:var(--ink-soft);max-width:560px;margin-bottom:38px;font-size:15.5px;font-weight:300}
 
   /* ---------- workshop ---------- */
+  .story-note{margin:26px 0 4px;padding:16px 18px;border-left:2px solid #a56a3c;background:rgba(165,106,60,.06);border-radius:0 3px 3px 0}
+  .story-note p{margin:6px 0 0;font-size:14.5px;line-height:1.6}
+  a.story-demo{text-decoration:none;display:inline-flex;align-items:center}
+  .viewer-note{font-size:11.5px;color:#a89e90;text-align:center;padding:8px 12px}
   .filters{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:30px}
   .chip{font-size:12.5px;font-weight:300;color:var(--ink-soft);border:1px solid var(--line-strong);
     background:transparent;padding:7px 15px;border-radius:2px;cursor:pointer;transition:.2s;letter-spacing:.3px}
@@ -424,7 +428,8 @@
       </div>
       <div class="viewer-story"></div>
       <div class="viewer-stage" hidden><iframe class="viewer-frame" title="Project demo" loading="lazy"
-        sandbox="allow-scripts allow-forms allow-popups allow-same-origin"></iframe></div>
+        sandbox="allow-scripts allow-forms allow-popups allow-same-origin"></iframe>
+        <div class="viewer-note">Running live inside this frame. If the site declines to load embedded, use “Open live site” above.</div></div>
     </div>
   </div>
 
@@ -452,7 +457,7 @@
 /* Each project opens a story-first pop-out. `story` drives the brief; `embed` (a URL) loads the
    real app in the demo frame once hosted (blank = placeholder preview); `link` is the live site. */
 const PROJECTS = [
-  { title:"Vidaria", tag:"AI", link:"https://vidaria.io", embed:"", cta:"Open the story",
+  { title:"Vidaria", tag:"AI", link:"https://vidaria.io", embed:"https://vidaria.io", cta:"Open the story",
     blurb:"An agentic operations manager for private security. Monitors officers, automates follow-up, and escalates the incidents that matter.",
     story:{
       status:"In production · trusted by 40+ firms",
@@ -524,6 +529,19 @@ const PROJECTS = [
       hint:"View the operations app.",
       updated:"2025", stats:[{v:"2023",k:"Joined"},{v:"Acquired",k:"Then"},{v:"Base",k:"For Vidaria"}] } },
 
+  { title:"Acoustic Tactile Sensing", tag:"Experiment", link:"https://github.com/Agould94/acoustic-tactile-sensing", embed:"", cta:"Open the story", repo:true,
+    blurb:"Can a robot identify what it's touching by how the touch changes a sound? Active acoustic sensing for robotics, plus a video blog of the hardware build.",
+    story:{
+      status:"Experimental · active research",
+      tagline:"Can a robot identify what it's touching by how the touch changes a sound?",
+      forWho:"Robotics and tactile-sensing researchers, and anyone curious about giving machines a sense of touch.",
+      what:"An experimental research project in active acoustic tactile sensing. The idea: continuously ring a plate with a swept sine tone and measure how contact deforms the plate's frequency response. Any material pressed against a vibrating surface adds mass, stiffness, and damping at the contact point, shifting resonances down, up, and broadening them, and that deformation is a fingerprint of the material's mechanical impedance. Unlike the passive contact-microphone approaches in the literature, active excitation works during static contact, the way a hand holding an object still knows what it's holding.",
+      how:"Rather than classifying material labels, the pipeline regresses physical parameters (acoustic impedance, loss factor) from interpretable spectral features, so materials it has never seen still land at meaningful points in physical space. It currently recovers impedance at r ≈ 0.99 across four decades on simulated data, with held-out materials placed next to their true neighbors. Tech: Python 3.11+, NumPy/SciPy (Farina exponential-sweep deconvolution, modal plate simulation), scikit-learn (interpretable features to logistic regression and random forests, no deep learning by design), pydantic + Parquet data contracts, pytest with property-based testing, fully reproducible from one seeded command.",
+      why:"Current stage: the full analysis pipeline is built and validated against a physics-based simulator (modal plate model + Hertzian contact mechanics) before any hardware exists. The simulator deliberately reproduces the failure modes that sink projects like this, data leakage across specimens and the contact-force confound, and the evaluation suite demonstrates both being detected and measured honestly.",
+      note:"This is also a video blog project. The next phase is unavoidably analog: a bench rig built from a USB audio interface, a voice-coil exciter, piezo discs, calibrated weights, and a load cell. I'll be documenting the hardware build, the first real measurements, and how the physical plate misbehaves compared to the simulation as the project evolves. Check back here for updates.",
+      hint:"Browse the code and the evaluation suite.",
+      updated:"Aug 2026", stats:[{v:"r ≈ 0.99",k:"Impedance"},{v:"4",k:"Decades"},{v:"Sim",k:"Stage"}] } },
+
   { title:"Your next idea", tag:"Experiment", blurb:"This shelf is built to grow. The next prototype, demo, or weekend build lands right here.", link:"", cta:"", add:true },
 ];
 const app = {
@@ -590,7 +608,10 @@ function storyHTML(p){
       ${block('For', s.forWho)}${block('What it is', s.what)}
       ${block('How it works', s.how)}${block('Why it matters', s.why)}
     </div>
-    <div class="story-cta-row"><button class="story-demo" data-demo type="button">Launch the demo →</button>${hint}</div>
+    ${s.note?`<div class="story-note"><span class="story-label">Video blog</span><p>${esc(s.note)}</p></div>`:''}
+    <div class="story-cta-row">${p.repo
+      ? `<a class="story-demo" href="${esc(p.link)}" target="_blank" rel="noopener">View the code on GitHub →</a>`
+      : `<button class="story-demo" data-demo type="button">Launch the demo →</button>`}${hint}</div>
   </div>`;
 }
 function previewDoc(p){
@@ -623,7 +644,8 @@ function previewDoc(p){
 function showStory(){ vStage.hidden=true; vStory.hidden=false; vBack.hidden=true;
   vFrame.removeAttribute('src'); vFrame.removeAttribute('srcdoc'); vStory.scrollTop=0; }
 function showDemo(p){ vStory.hidden=true; vStage.hidden=false; vBack.hidden=false;
-  if(p.embed){ vFrame.removeAttribute('srcdoc'); vFrame.src=p.embed; }
+  const src = p.embed || (p.link && p.link.indexOf('http')===0 && !p.repo ? p.link : '');
+  if(src){ vFrame.removeAttribute('srcdoc'); vFrame.src=src; }
   else { vFrame.removeAttribute('src'); vFrame.srcdoc=previewDoc(p); } }
 function openViewer(p, cardEl){
   vOrigin=cardEl; vCurrent=p;
