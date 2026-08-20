@@ -17,6 +17,7 @@ Projects live in the `PROJECTS` array near the top of the `<script>` in `index.h
 | `link` | live site (or repo). External `http` links get an "Open live site" button |
 | `embed` | URL loaded in the iframe when "Launch the demo" is clicked; falls back to `link` when empty |
 | `repo: true` | treat `link` as a code repo — the CTA opens it in a new tab instead of iframing |
+| `noDemo: true` | story only, no demo button or live-site link (set `link` to any non-URL string so the card still opens) |
 | `story` | the pop-out narrative: `status`, `tagline`, `forWho`, `what`, `how`, `why`, optional `note` callout, `hint`, `updated`, `stats` |
 
 Embedding a live site requires that site to allow framing (no `X-Frame-Options: SAMEORIGIN/DENY` and a permissive `frame-ancestors` CSP).

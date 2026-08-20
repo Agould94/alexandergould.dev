@@ -469,7 +469,7 @@ const PROJECTS = [
       hint:"See a shift run itself.",
       updated:"Aug 2026", stats:[{v:"40+",k:"Firms"},{v:"2025",k:"Founded"},{v:"1",k:"Acquisition"}] } },
 
-  { title:"ShareVault", tag:"Product", link:"#", embed:"", cta:"Open the story",
+  { title:"ShareVault", tag:"Product", link:"https://sharevault.alexandergould.dev", embed:"https://sharevault.alexandergould.dev", cta:"Open the story",
     blurb:"A private vault where a family keeps what matters, together. Store critical records over time and share them with exactly the right people.",
     story:{
       status:"In production",
@@ -481,7 +481,7 @@ const PROJECTS = [
       hint:"Ask: who can see grandpa's medical records?",
       updated:"Aug 2026", stats:[{v:"Live",k:"Status"},{v:"AI",k:"Search"},{v:"Family",k:"Built for"}] } },
 
-  { title:"Context Torus", tag:"AI", link:"#", embed:"", cta:"Open the story",
+  { title:"Context Torus", tag:"AI", link:"https://contexttorus.alexandergould.dev", embed:"https://contexttorus.alexandergould.dev", cta:"Open the story",
     blurb:"Agentic memory that actually remembers you. A personal assistant with durable memory across everything you store.",
     story:{
       status:"In development",
@@ -493,7 +493,7 @@ const PROJECTS = [
       hint:"Watch it recall the right context, instantly.",
       updated:"Aug 2026", stats:[{v:"Toroidal",k:"Memory"},{v:"Fast",k:"Recall"},{v:"Fewer",k:"Tokens"}] } },
 
-  { title:"Dialogium", tag:"AI", link:"#", embed:"", cta:"Open the story",
+  { title:"Dialogium", tag:"AI", link:"https://dialogium.alexandergould.dev", embed:"https://dialogium.alexandergould.dev", cta:"Open the story",
     blurb:"Learn anything. An AI education platform that builds a full course, with testing and assessment, on any topic, on demand.",
     story:{
       status:"In development",
@@ -505,7 +505,7 @@ const PROJECTS = [
       hint:"Generate a course on anything.",
       updated:"Jul 2026", stats:[{v:"Any",k:"Topic"},{v:"Full",k:"Courses"},{v:"On demand",k:"Access"}] } },
 
-  { title:"Holodeck", tag:"Creative", link:"#", embed:"", cta:"Open the story", dark:true,
+  { title:"Holodeck", tag:"Creative", link:"https://holodeck.alexandergould.dev", embed:"https://holodeck.alexandergould.dev", cta:"Open the story", dark:true,
     blurb:"A collaborative, code-native 3D workspace built on Three.js. Build interactive worlds together, then export them anywhere.",
     story:{
       status:"In development",
@@ -517,7 +517,7 @@ const PROJECTS = [
       hint:"Spin up a 3D scene from a prompt.",
       updated:"Aug 2026", stats:[{v:"Three.js",k:"Engine"},{v:"Code",k:"Native"},{v:"Export",k:"Anywhere"}] } },
 
-  { title:"GuardTrax", tag:"Product", link:"#", embed:"", cta:"Open the story",
+  { title:"GuardTrax", tag:"Product", link:"story", embed:"", cta:"Open the story", noDemo:true,
     blurb:"The security-operations platform I engineered, then acquired. Patrols, live tracking, incidents, and reporting.",
     story:{
       status:"Acquired · the platform behind Vidaria",
@@ -609,9 +609,9 @@ function storyHTML(p){
       ${block('How it works', s.how)}${block('Why it matters', s.why)}
     </div>
     ${s.note?`<div class="story-note"><span class="story-label">Video blog</span><p>${esc(s.note)}</p></div>`:''}
-    <div class="story-cta-row">${p.repo
+    <div class="story-cta-row">${p.noDemo ? '' : p.repo
       ? `<a class="story-demo" href="${esc(p.link)}" target="_blank" rel="noopener">View the code on GitHub →</a>`
-      : `<button class="story-demo" data-demo type="button">Launch the demo →</button>`}${hint}</div>
+      : `<button class="story-demo" data-demo type="button">Launch the demo →</button>`}${p.noDemo?'':hint}</div>
   </div>`;
 }
 function previewDoc(p){
