@@ -137,6 +137,22 @@
   .story-note p{margin:6px 0 0;font-size:14.5px;line-height:1.6}
   a.story-demo{text-decoration:none;display:inline-flex;align-items:center}
   .viewer-note{font-size:11.5px;color:#a89e90;text-align:center;padding:8px 12px}
+  .story-log{margin:26px 0 4px;border:1px solid var(--line);border-radius:3px;background:var(--paper)}
+  .story-log summary{display:flex;align-items:center;gap:12px;padding:13px 16px;cursor:pointer;list-style:none;user-select:none}
+  .story-log summary::-webkit-details-marker{display:none}
+  .story-log .log-hint{font-size:11.5px;color:var(--ink-soft);font-weight:300}
+  .story-log .log-caret{margin-left:auto;color:var(--cognac);font-size:12px;transition:.25s}
+  .story-log[open] .log-caret{transform:rotate(180deg)}
+  .log-body{border-top:1px solid var(--line);max-height:280px;overflow-y:auto}
+  .log-row{display:flex;gap:16px;align-items:baseline;padding:9px 16px;text-decoration:none;border-bottom:1px solid var(--line)}
+  .log-row:last-child{border-bottom:0}
+  .log-row:hover{background:var(--card)}
+  .log-when{flex:0 0 128px;display:flex;flex-direction:column}
+  .log-date{font-size:11.5px;font-weight:400;letter-spacing:.6px;color:var(--walnut)}
+  .log-time{font-size:10.5px;color:var(--ink-soft);font-weight:300}
+  .log-msg{font-size:13px;font-weight:300;color:var(--ink);line-height:1.45}
+  .log-more .log-msg{color:var(--cognac)}
+  .log-empty{padding:14px 16px;font-size:12.5px;color:var(--ink-soft);font-weight:300}
   .filters{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:30px}
   .chip{font-size:12.5px;font-weight:300;color:var(--ink-soft);border:1px solid var(--line-strong);
     background:transparent;padding:7px 15px;border-radius:2px;cursor:pointer;transition:.2s;letter-spacing:.3px}
@@ -495,7 +511,7 @@ const PROJECTS = [
       hint:"Ask: who can see grandpa's medical records?",
       updated:"Aug 2026", stats:[{v:"Live",k:"Status"},{v:"AI",k:"Search"},{v:"Family",k:"Built for"}] } },
 
-  { title:"Context Torus", tag:"AI", link:"https://contexttorus.alexandergould.dev", embed:"https://contexttorus.alexandergould.dev", cta:"Open the story",
+  { title:"Context Torus", tag:"AI", link:"https://contexttorus.alexandergould.dev", embed:"https://contexttorus.alexandergould.dev", cta:"Open the story", gh:"ContextTorus",
     blurb:"Agentic memory that actually remembers you. A personal assistant with durable memory across everything you store.",
     story:{
       status:"In development",
@@ -507,7 +523,7 @@ const PROJECTS = [
       hint:"Watch it recall the right context, instantly.",
       updated:"Aug 2026", stats:[{v:"Toroidal",k:"Memory"},{v:"Fast",k:"Recall"},{v:"Fewer",k:"Tokens"}] } },
 
-  { title:"Dialogium", tag:"AI", link:"https://dialogium.alexandergould.dev", embed:"https://dialogium.alexandergould.dev", cta:"Open the story",
+  { title:"Dialogium", tag:"AI", link:"https://dialogium.alexandergould.dev", embed:"https://dialogium.alexandergould.dev", cta:"Open the story", gh:"dialogium-v2",
     blurb:"Learn anything. An AI education platform that builds a full course, with testing and assessment, on any topic, on demand.",
     story:{
       status:"In development",
@@ -519,7 +535,7 @@ const PROJECTS = [
       hint:"Generate a course on anything.",
       updated:"Jul 2026", stats:[{v:"Any",k:"Topic"},{v:"Full",k:"Courses"},{v:"On demand",k:"Access"}] } },
 
-  { title:"Holodeck", tag:"Creative", link:"https://holodeck.alexandergould.dev", embed:"https://holodeck.alexandergould.dev", cta:"Open the story", dark:true,
+  { title:"Holodeck", tag:"Creative", link:"https://holodeck.alexandergould.dev", embed:"https://holodeck.alexandergould.dev", cta:"Open the story", dark:true, gh:"holodeck",
     blurb:"A collaborative, code-native 3D workspace built on Three.js. Build interactive worlds together, then export them anywhere.",
     story:{
       status:"In development",
@@ -543,7 +559,7 @@ const PROJECTS = [
       hint:"View the operations app.",
       updated:"2025", stats:[{v:"2023",k:"Joined"},{v:"Acquired",k:"Then"},{v:"Base",k:"For Vidaria"}] } },
 
-  { title:"Acoustic Tactile Sensing", tag:"Experiment", link:"https://github.com/Agould94/acoustic-tactile-sensing", embed:"", cta:"Open the story", repo:true,
+  { title:"Acoustic Tactile Sensing", tag:"Experiment", link:"https://github.com/Agould94/acoustic-tactile-sensing", embed:"", cta:"Open the story", repo:true, gh:"acoustic-tactile-sensing",
     blurb:"Can a robot identify what it's touching by how the touch changes a sound? Active acoustic sensing for robotics, plus a video blog of the hardware build.",
     story:{
       status:"Experimental · active research",
@@ -623,6 +639,10 @@ function storyHTML(p){
       ${block('How it works', s.how)}${block('Why it matters', s.why)}
     </div>
     ${s.note?`<div class="story-note"><span class="story-label">Video blog</span><p>${esc(s.note)}</p></div>`:''}
+    ${p.gh?`<details class="story-log" data-gh="${esc(p.gh)}">
+      <summary><span class="story-label">Changelog</span><span class="log-hint">commit history ‹ live from GitHub ›</span><span class="log-caret">▾</span></summary>
+      <div class="log-body"><div class="log-list">Loading…</div></div>
+    </details>`:''}
     <div class="story-cta-row">${p.noDemo ? '' : p.repo
       ? `<a class="story-demo" href="${esc(p.link)}" target="_blank" rel="noopener">View the code on GitHub →</a>`
       : `<button class="story-demo" data-demo type="button">Launch the demo →</button>`}${p.noDemo?'':hint}</div>
@@ -677,6 +697,33 @@ function openViewer(p, cardEl){
   });
 }
 vStory.addEventListener('click', e=>{ if(e.target.closest('[data-demo]') && vCurrent) showDemo(vCurrent); });
+const logCache={};
+async function loadLog(box, repo){
+  if(logCache[repo]){ box.innerHTML=logCache[repo]; return; }
+  box.textContent='Loading…';
+  try{
+    const r=await fetch(`https://api.github.com/repos/Agould94/${repo}/commits?per_page=100`);
+    if(r.status===404) throw {msg:'This repo isn’t public yet — history will appear here once it is.'};
+    if(r.status===403) throw {msg:'GitHub’s rate limit was reached — try again in a bit.'};
+    if(!r.ok) throw {msg:'Couldn’t reach GitHub right now.'};
+    const commits=await r.json();
+    const fmtD=new Intl.DateTimeFormat(undefined,{month:'short',day:'numeric',year:'numeric'});
+    const fmtT=new Intl.DateTimeFormat(undefined,{hour:'numeric',minute:'2-digit'});
+    const html = commits.map(c=>{
+      const d=new Date(c.commit.committer.date);
+      const msg=(c.commit.message||'').split('\n')[0];
+      return `<a class="log-row" href="${esc(c.html_url)}" target="_blank" rel="noopener">
+        <span class="log-when"><span class="log-date">${esc(fmtD.format(d))}</span><span class="log-time">${esc(fmtT.format(d))}</span></span>
+        <span class="log-msg">${esc(msg)}</span></a>`;
+    }).join('') + `<a class="log-row log-more" href="https://github.com/Agould94/${esc(repo)}/commits" target="_blank" rel="noopener"><span class="log-msg">View full history on GitHub →</span></a>`;
+    logCache[repo]=html; box.innerHTML=html;
+  }catch(e){ box.innerHTML=`<div class="log-empty">${esc(e.msg||'Couldn’t load the changelog.')}</div>`; }
+}
+vStory.addEventListener('toggle', e=>{
+  const d=e.target.closest('.story-log');
+  if(d && d.open) loadLog(d.querySelector('.log-list'), d.dataset.gh);
+}, true);
+
 vBack.addEventListener('click', showStory);
 function closeViewer(){
   if(!viewer.classList.contains('open')) return;
