@@ -272,7 +272,7 @@
     text-transform:uppercase;color:var(--cognac)}
   .story-status::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--cognac)}
   .story-updated{font-size:11px;font-weight:300;letter-spacing:.4px;color:var(--ink-soft)}
-  .story-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 6px}
+  .story-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(105px,1fr));gap:10px;margin:0 0 6px}
   .story-stat{border:1px solid var(--line);border-radius:3px;padding:12px 13px;background:var(--paper)}
   .story-stat .sv{font-size:18px;font-weight:200;letter-spacing:-.3px;color:var(--ink)}
   .story-stat .sk{font-size:9.5px;font-weight:400;letter-spacing:1.5px;text-transform:uppercase;color:var(--cognac);margin-top:5px}
@@ -481,7 +481,7 @@ const PROJECTS = [
       how:"It watches live operations, reaches out to officers directly when something needs attention, and handles the routine follow-through, so a small team can run a large operation.",
       why:"I acquired the platform it grew from and built the AI on its real customer base, so it solves problems operators actually have, not hypothetical ones.",
       hint:"See a shift run itself.",
-      updated:"Aug 2026", stats:[{v:"40+",k:"Firms"},{v:"2025",k:"Founded"},{v:"1",k:"Acquisition"}] } },
+      updated:"Aug 2026", stats:[{v:"1000+",k:"Weekly active users"},{v:"40+",k:"Firms"},{v:"2025",k:"Founded"},{v:"1",k:"Acquisition"}] } },
 
   { title:"ShareVault", tag:"Product", link:"https://sharevault.alexandergould.dev", embed:"https://sharevault.alexandergould.dev/demo", cta:"Open the story",
     blurb:"A private vault where a family keeps what matters, together. Store critical records over time and share them with exactly the right people.",
